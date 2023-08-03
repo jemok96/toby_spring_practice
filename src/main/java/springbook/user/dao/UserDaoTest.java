@@ -27,5 +27,6 @@ public class UserDaoTest {
         int result = dao.delete("rudnf1");
         System.out.println("result = " + result);
 
+
     }
 }
