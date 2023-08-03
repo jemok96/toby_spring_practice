@@ -1,0 +1,54 @@
+
+
+
+1.
+변하지 않는 기능은 슈퍼클래스에 만들어두고 자주 변경되며 확장할 기능은 서브클래스에서 만들도록 한다.
+슈퍼클래스에서 변하지않는 것은 일반 메서드로 정의하고
+서브클래스마다 변할 가능성이 있는 경우 abstract로 정의해서 재정의 하도록 강요한다.
+근데 abstract를 사용할 경우 다중상속을 지원하지 않으므로 다른 기능을 적용할 수 없는 문제점이있음
+다른 목적을 위해 이미 상속을 하고 있는다면??
+
+=>
+2.
+SimpleConnectionMaker를 상속받아
+UserDao에서 사용하는 식으로 변경해보자!
+but D사와 N사가 SimpleConnectionMaker에 종속되어서 더 이상 자신만의 DB커넥션을 사용할 수 없게되었다
+
+=>
+3.
+인터페이스 ConnectionMaker를 도입해서
+D사와 N사가 각 각 자신만의 기능을 구현하도록 변경해보자
+자신만의 코드를 작성할 수 있게 되었지만
+private ConnectionMaker connectionMaker;
+
+    public UserDao() {
+        connectionMaker =new DConnectionMaker();
+    }
+여전히 DConnection과 NConnection 중 사용할 것을 변경할 떄 코드의 수정이 일어난다.
+UserDAO는 여전히 구현클래스의 구체적인 클래스까지 알아야한다.. 분리되지 않은 관심사항이 존재한다.
+
+
+4.
+private ConnectionMaker connectionMaker;
+
+    public UserDao(ConnectionMaker connectionMaker) {
+        this.connectionMaker = connectionMaker;
+    }
+이로써 클라이언트에서 어떤 구현체를 쓸지만 정해주면 된다.
+각 클래스는 자신만의 관심사를 담고있다
+ConnectionMaker는 어떻게 DbConnection을 가져올것인지
+UserDao는 sql로직을 어떻게 구성할 것인지
+UserDaoTest는 어떤 것을 사용할 것인지만 정해 줌으로써
+각각의 관심사가 분리됐다.
+
+5.
+Factory를 사용해 오브젝트를 생성하는 쪽과 사용하는 쪽의 역할과 책임을 분리한다.
+UserDaoTest는 UserDao의 테스트의 역할과 책임을 가져야 했는데
+ConnectionMaker connectionMaker = new DConnectionMaker();
+UserDao dao = new UserDao(connectionMaker);
+어떤 오브젝트를 생성할것인가에 대한 역할도 존재했었다.
+
+6.
+UserDao dao = new DaoFactory().userDao();
+ 제어의 역전이 적용 됨! 오브젝트가 자신이 사용할 오브젝트를 스스로 선택하지도, 생성하지도 않는다
+ 또 자신도 어떻게 만들어지고 어디서 사용되는지 알 수 없다. 모든 제어 권한을 다른 상대에게 위임하기 때문에
