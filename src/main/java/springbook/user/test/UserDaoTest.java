@@ -31,8 +31,7 @@ public class UserDaoTest {
         User findUser = dao.get("rudnf1");
         System.out.println("findUser = " + findUser.getName());
 
-        int result = dao.delete("rudnf1");
-        System.out.println("result = " + result);
+        dao.delete("rudnf1");
 
 
     }

@@ -56,38 +56,105 @@ public  class UserDao {
         c.close();
         return user;
     }
-    public int delete(String id) throws ClassNotFoundException, SQLException{
-        c = dataSource.getConnection();
+    public void delete(String id) throws ClassNotFoundException, SQLException{
+        c = null;
+        PreparedStatement ps = null;
 
-
-        PreparedStatement ps = c.prepareStatement("delete from users where id=?");
-        ps.setString(1,id);
-
-        int i = ps.executeUpdate();
-
-        ps.close();
-        c.close();
-        return i;
+        try{
+            c = dataSource.getConnection();
+            ps = c.prepareStatement("delete from users");
+            ps.executeUpdate();
+        }
+        catch(SQLException e) {
+            throw e;
+        }finally {
+            if(ps !=null){
+                try{
+                    ps.close();
+                }
+                catch(SQLException e) {
+                    throw e;
+                }
+            }
+            if(ps !=null){
+                try{
+                    ps.close();
+                }
+                catch(SQLException e) {
+                    throw e;
+                }
+            }
+        }
     }
     public void deleteAll() throws ClassNotFoundException, SQLException{
-        c = dataSource.getConnection();
+        c = null;
+        PreparedStatement ps = null;
 
-        PreparedStatement ps = c.prepareStatement("delete from users");
-        ps.executeUpdate();
-        ps.close();
-        c.close();
+        try{
+            c = dataSource.getConnection();
+            ps = c.prepareStatement("delete from users");
+            ps.executeUpdate();
+        }
+        catch(SQLException e) {
+            throw e;
+        }
+        finally {
+            if(ps !=null){
+                try{
+                    ps.close();
+                }
+                catch(SQLException e) {
+                    throw e;
+                }
+            }
+            if(ps !=null){
+                try{
+                    ps.close();
+                }
+                catch(SQLException e) {
+                    throw e;
+                }
+            }
+        }
     }
 
     public int getCount()throws ClassNotFoundException,SQLException{
-        c = dataSource.getConnection();
-        PreparedStatement ps = c.prepareStatement("select COUNT(*) from users");
-        ResultSet rs = ps.executeQuery();
-        rs.next();
-        int result = rs.getInt(1);
+        c = null;
+        PreparedStatement ps = null;
+        ResultSet rs =null;
 
-        rs.close();
-        ps.close();
-        c.close();
-        return result;
+        try{
+            c = dataSource.getConnection();
+            ps = c.prepareStatement("select count(*) from users");
+            rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+            }
+        catch(SQLException e) {
+            throw e;
+        }
+        finally {
+            if(rs !=null){
+                try{
+                    rs.close();
+                }
+                catch(SQLException e) {
+                }
+            }
+            if(ps !=null){
+                try{
+                    ps.close();
+                }
+                catch(SQLException e) {
+                }
+            }
+            if(c !=null){
+                try{
+                    c.close();
+                }
+                catch(SQLException e) {
+                }
+            }
+        }
     }
 }

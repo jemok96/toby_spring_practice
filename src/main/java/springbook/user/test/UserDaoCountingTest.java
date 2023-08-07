@@ -22,8 +22,8 @@ public class UserDaoCountingTest {
         User findUser = dao.get("rudnf1");
         System.out.println("findUser = " + findUser.getName());
 
-        int result = dao.delete("rudnf1");
-        System.out.println("result = " + result);
+        dao.delete("rudnf1");
+
 
         CountingConnectionMaker ccm = ac.getBean("connectionMaker", CountingConnectionMaker.class);
         System.out.println("ccm = " + ccm.getCounter());
