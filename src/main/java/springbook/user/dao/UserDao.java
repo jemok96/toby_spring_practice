@@ -1,5 +1,6 @@
 package springbook.user.dao;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import springbook.user.domain.User;
 
 import javax.sql.DataSource;
@@ -12,7 +13,6 @@ public  class UserDao {
     private DataSource dataSource;
 
     private Connection c;
-    private User user;
 
     public UserDao(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -40,16 +40,21 @@ public  class UserDao {
         ps.setString(1,id);
 
         ResultSet rs = ps.executeQuery();
-        rs.next();
-        this.user = new User();
-        this.user.setId(rs.getString("id"));
-        this.user.setName(rs.getString("name"));
-        this.user.setPassword(rs.getString("password"));
+        User user = null;
 
+        if(rs.next()) {
+            user = new User();
+            user.setId(rs.getString("id"));
+            user.setName(rs.getString("name"));
+            user.setPassword(rs.getString("password"));
+        }
+        System.out.println("user = " + user);
+        if(user ==null){throw new EmptyResultDataAccessException(1);
+        }
         rs.close();
         ps.close();
         c.close();
-        return this.user;
+        return user;
     }
     public int delete(String id) throws ClassNotFoundException, SQLException{
         c = dataSource.getConnection();
@@ -63,5 +68,26 @@ public  class UserDao {
         ps.close();
         c.close();
         return i;
+    }
+    public void deleteAll() throws ClassNotFoundException, SQLException{
+        c = dataSource.getConnection();
+
+        PreparedStatement ps = c.prepareStatement("delete from users");
+        ps.executeUpdate();
+        ps.close();
+        c.close();
+    }
+
+    public int getCount()throws ClassNotFoundException,SQLException{
+        c = dataSource.getConnection();
+        PreparedStatement ps = c.prepareStatement("select COUNT(*) from users");
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int result = rs.getInt(1);
+
+        rs.close();
+        ps.close();
+        c.close();
+        return result;
     }
 }
