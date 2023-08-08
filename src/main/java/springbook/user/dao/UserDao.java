@@ -62,7 +62,7 @@ public  class UserDao {
 
         try{
             c = dataSource.getConnection();
-            ps = c.prepareStatement("delete from users");
+            ps = makeStatement();
             ps.executeUpdate();
         }
         catch(SQLException e) {
@@ -86,6 +86,13 @@ public  class UserDao {
             }
         }
     }
+
+    private PreparedStatement makeStatement() throws SQLException {
+        PreparedStatement ps;
+        ps = c.prepareStatement("delete from users");
+        return ps;
+    }
+
     public void deleteAll() throws ClassNotFoundException, SQLException{
         c = null;
         PreparedStatement ps = null;
