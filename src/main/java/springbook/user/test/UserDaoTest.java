@@ -3,7 +3,6 @@ package springbook.user.test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
-import springbook.factory.DaoFactory;
 import springbook.user.dao.UserDao;
 import springbook.user.domain.User;
 
@@ -32,6 +31,9 @@ public class UserDaoTest {
         System.out.println("findUser = " + findUser.getName());
 
         dao.delete("rudnf1");
+        User findUser2 = dao.get("rudnf1");
+        System.out.println("findUser2 = " + findUser2.getName());
+
 
 
     }
