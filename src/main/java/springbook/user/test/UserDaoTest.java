@@ -29,12 +29,9 @@ public class UserDaoTest {
 
         User findUser = dao.get("rudnf1");
         System.out.println("findUser = " + findUser.getName());
+        System.out.println("dao.getCount() = " + dao.getCount());
 
-        dao.delete("rudnf1");
-        User findUser2 = dao.get("rudnf1");
-        System.out.println("findUser2 = " + findUser2.getName());
-
-
+        dao.deleteAll();
 
     }
 }
