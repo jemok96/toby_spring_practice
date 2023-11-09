@@ -26,6 +26,11 @@ public class UserDaoTest {
         user.setPassword("gkdlfn12");
 
         dao.add(user);
+        User user2 = new User();
+        user2.setName("경제목");
+        user2.setId("rudnf1");
+        user2.setPassword("gkdlfn12");
+        dao.add(user2);
 
         User findUser = dao.get("rudnf1");
         System.out.println("findUser = " + findUser.getName());
