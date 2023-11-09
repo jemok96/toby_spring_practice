@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
-import springbook.factory.DaoFactory;
 import springbook.user.domain.User;
 
 import java.sql.SQLException;
@@ -21,21 +20,21 @@ class DaoFactoryTest {
     void userDaoInit() throws SQLException, ClassNotFoundException {
          userDao = context.getBean("userDao", UserDao.class);
     }
-    @Test
-    void UserDaoEqualsCheck() throws Exception{
-        DaoFactory factory = new DaoFactory();
-        UserDao dao1 = factory.userDao();
-        UserDao dao2 = factory.userDao();
-        System.out.println("dao1 = " + dao1);
-        System.out.println("dao2 = " + dao2);
-        Assertions.assertNotSame(dao1,dao2); //Asserts that expected and actual do not refer to the same object.
-
-        dao1 = context.getBean("userDao",UserDao.class);
-        dao2 = context.getBean("userDao",UserDao.class);
-        System.out.println("dao1 = " + dao1);
-        System.out.println("dao2 = " + dao2);
-        Assertions.assertSame(dao1,dao2); // Asserts that expected and actual refer to the same object.
-    }
+//    @Test
+//    void UserDaoEqualsCheck() throws Exception{
+//        DaoFactory factory = new DaoFactory();
+//        UserDao dao1 = factory.userDao();
+//        UserDao dao2 = factory.userDao();
+//        System.out.println("dao1 = " + dao1);
+//        System.out.println("dao2 = " + dao2);
+//        Assertions.assertNotSame(dao1,dao2); //Asserts that expected and actual do not refer to the same object.
+//
+//        dao1 = context.getBean("userDao",UserDao.class);
+//        dao2 = context.getBean("userDao",UserDao.class);
+//        System.out.println("dao1 = " + dao1);
+//        System.out.println("dao2 = " + dao2);
+//        Assertions.assertSame(dao1,dao2); // Asserts that expected and actual refer to the same object.
+//    }
 
     @Test
     public void addAndGet() throws Exception{

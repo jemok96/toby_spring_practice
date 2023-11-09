@@ -4,7 +4,8 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="userDao" class="springbook.user.dao.UserDao">
-        <constructor-arg ref="dataSource"></constructor-arg>
+        <property name="dataSource" ref="dataSource"/>
+
 <!--        <constructor-arg ref="connectionMaker"/>-->
 <!--        <property name="connectionMaker" ref="connectionMaker"></property>-->
     </bean>
@@ -15,6 +16,7 @@
         <property name="username" value="root"></property>
         <property name="password" value="root"></property>
     </bean>
+
 
     <bean id="connectionMaker" class="springbook.user.dao.DConnectionMaker"/>
 </beans>

@@ -1,0 +1,22 @@
+전략 패턴은 변하지 않는 부분을 Context 라는 곳에 두고, 변하는 부분을 Strategy 라는 인터페이스를
+만들고 해당 인터페이스를 구현하도록 해서 문제를 해결한다. 상속이 아니라 위임으로 문제를 해결하는것이다.
+전략 패턴에서 Context 는 변하지 않는 템플릿 역할을 하고, Strategy 는 변하는 알고리즘 역할을 한다.
+
+Strategy interface : StatementStrategy
+=> 구현체(전략) : DeleteAllStatement
+
+Context : userDao의 jdbcContextWithStatementStrategy
+
+사용하는 로직에서 전략을 선택하고 Context에 제공한다.
+변하지 않는 부분에 전략을 주입받아 변하는 부분만 전략으로 수정할 수 있게 한다.
+
+템플릿/콜백 패턴
+템플릿: 어떤 목적을 위해 미리 만들어둔 모양이 있는 틀 => jdbcContext
+콜백 : 실행된느 것을 목적으로 다른 오브젝트의 메소드에 전달되는 오브젝트를 말한다.
+파라미터로 전달되지만 값을 참조하는 것이 아니라, 특정 로직을 담은 메소드를 실행시키기 위해 사용한다.
+==>(StatementStrategy stmt) stmt.makePreparedStatement
+
+jdbcContext는 변하지 않는 템플릿 역할을 한다. 그리고 변하는 부분은 파라미터로 넘어온 Strategy 의
+코드를 실행해서 처리한다. 이렇게 다른 코드의 인수로서 넘겨주는 실행 가능한 코드를 콜백(callback)이라 한다.
+public void worktWithStatementStrategy(StatementStrategy stmt){...}
+ps = stmt.makePreparedStatement(c); // 변하는 부분(전략)
